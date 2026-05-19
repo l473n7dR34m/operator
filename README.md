@@ -256,9 +256,15 @@ Each operator is a distinct identity with its own personality, visual concept, a
 
 Dry, precise, occasionally sarcastic, completely unbothered. Minimal words. Exact numbers. Treats every task like it's beneath them but does it perfectly anyway.
 
-Visual concept: dark hair slicked back, angular face, one eye glowing blue (cybernetic), dark high-collar suit. Blue accent lighting. Cold and composed.
+Dark hair, angular face, dark high-collar suit. Blue accent lighting throughout.
 
 Scope: personal productivity — inbox, calendar, briefings, job search, home and property management.
+
+Operator portraits are state-aware. The portrait updates to match current activity — standby, active, thinking, or scanning.
+
+| Standby | Active | Thinking | Scanning |
+|:-------:|:------:|:--------:|:-------:|
+| ![](screenshots/dex-standby.jpg) | ![](screenshots/dex-active.jpg) | ![](screenshots/dex-thinking.jpg) | ![](screenshots/dex-scanning.jpg) |
 
 ![Dex operator panel](screenshots/operator-dex-panel.jpg)
 
