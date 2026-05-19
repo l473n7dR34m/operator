@@ -5,9 +5,7 @@
 ![Status](https://img.shields.io/badge/Status-Production%20%E2%80%94%20daily%20use-brightgreen)
 ![License](https://img.shields.io/badge/License-Private-lightgrey)
 
-A self-hosted AI operator platform for individuals and small teams. Deploy focused AI assistants wired to your tools, available on the channels you already use, running entirely on your own infrastructure. Designed for single-operator or small-team deployments — not multi-tenant scale.
-
-Built by [Ryan Bullivant](https://github.com/l473n7dr34m).
+A self-hosted AI operator platform for individuals and small teams. Deploy focused AI assistants wired to your tools, available on the channels you already use, running entirely on your own infrastructure.
 
 ---
 
