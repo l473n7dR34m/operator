@@ -7,15 +7,13 @@
 
 A self-hosted AI operator platform. Deploy focused AI assistants wired to your tools, available on the channels your team already uses, running entirely on your own infrastructure.
 
-Built and maintained by [Ryan Bullivant](https://github.com/l473n7dr34m) — Sysadmin / IT Lead, 10 years in IT operations, automation, and integrations.
+Built by [Ryan Bullivant](https://github.com/l473n7dr34m).
 
 ---
 
 ## Live Example: Dex
 
-> The reference deployment. Ryan's personal AI operator, in daily production use since early 2026.
-
-Dex runs on this platform and handles a real daily workload across Telegram and a local web UI. Context is preserved between channels — one brain, multiple entry points.
+The reference deployment — a personal AI operator running daily since early 2026. Handles a real workload across Telegram and a local web UI. Context is preserved between channels: one brain, multiple entry points.
 
 **What it does in production:**
 
@@ -35,23 +33,6 @@ Responds in seconds. Occasionally sarcastic.
 > **Screenshot:** Dex responding in Telegram — inbox triage session
 
 > **Screenshot:** Nexus web UI — chat panel with Dex, live dashboard sidebar
-
----
-
-## Skills Demonstrated
-
-Quick reference for hiring managers. Full detail in each section below.
-
-| Area | Specifics |
-|------|-----------|
-| **Python** | FastAPI backend, async handlers, subprocess management, HMAC auth, scheduled jobs |
-| **API integrations** | Gmail, Google Calendar, Google Drive, Slack, Telegram, Shopify, Unleashed, Stripe, Spotify, Starlink, GitHub, Anthropic |
-| **Auth** | Google OAuth2 (full flow), Bot token auth (Slack, Telegram), API key + HMAC signing (Unleashed) |
-| **LLM / AI tooling** | Anthropic API (Sonnet, Opus), MCP protocol, tool-use orchestration, prompt engineering, context management |
-| **Automation** | Cron scheduling, browser automation (Playwright), voice transcription pipeline (Whisper), event-driven hooks |
-| **System design** | Multi-channel unified context, modular operator registry, hot-swappable skill system, hook-based safety layer |
-| **Frontend** | Nine live dashboards (HTML/CSS/JS), PWA web UI, real-time data refresh |
-| **Infrastructure** | Self-hosted, VPS-portable, offline-capable (Starlink gRPC against local hardware) |
 
 ---
 
