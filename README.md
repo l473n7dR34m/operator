@@ -270,9 +270,9 @@ Scope: personal productivity — inbox, calendar, briefings, job search, home an
 
 Operator portraits are state-aware. The portrait updates to match current activity.
 
-| ![](screenshots/dex-standby.jpg) | ![](screenshots/dex-active.jpg) | ![](screenshots/dex-thinking.jpg) | ![](screenshots/dex-scanning.jpg) |
-|:-------:|:------:|:--------:|:--------:|
-| Standby | Active | Thinking | Scanning |
+| ![](screenshots/dex-idle.jpg) | ![](screenshots/dex-thinking.jpg) | ![](screenshots/dex-working.jpg) | ![](screenshots/dex-success.jpg) |
+|:----:|:--------:|:-------:|:-------:|
+| Idle | Thinking | Working | Success |
 
 ---
 
