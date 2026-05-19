@@ -310,7 +310,3 @@ Configuration lives in `CLAUDE.md` (operator behaviour), `operators/` (operator 
 
 Active development. The reference deployment (Dex) has been in daily production use since early 2026. The platform is being hardened for multi-client deployment.
 
----
-
-*Built by Ryan Bullivant — Systems Administrator, automation builder, and reluctant perfectionist.*
-*GitHub: [l473n7dr34m](https://github.com/l473n7dr34m)*
