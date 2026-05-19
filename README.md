@@ -5,7 +5,9 @@
 ![Status](https://img.shields.io/badge/Status-Production%20%E2%80%94%20daily%20use-brightgreen)
 ![License](https://img.shields.io/badge/License-Private-lightgrey)
 
-A personal AI operations layer built around a persistent event log, tool adapters, and LLM decision-making. Self-hosted, single-operator or small-team scale. Deploy focused AI assistants wired to your tools, available on the channels you already use, running entirely on your own infrastructure.
+Most productivity tools don't talk to each other. You've got a Telegram message, an open calendar, an inbox, a Slack thread, and a Shopify order — all needing attention, all in separate places, none sharing context. Every switch costs you the thread.
+
+Operator is a personal AI operations layer that puts a single AI assistant across all of it. Built around a persistent event log, tool adapters, and LLM decision-making. Self-hosted, single-operator or small-team scale.
 
 ---
 
@@ -309,9 +311,23 @@ Self-hosted per instance. No multi-tenancy, no shared data, no external telemetr
 - Channel credentials (Telegram bot token, Slack app credentials)
 - Google OAuth2 credentials (for Gmail, Calendar, Drive)
 
+**Environment setup:**
+```bash
+# Copy and populate credentials
+cp .env.example .env
+
+# Key variables:
+# TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
+# SLACK_BOT_TOKEN
+# GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
+# ANTHROPIC_API_KEY
+# SHOPIFY_API_KEY, UNLEASHED_API_ID, UNLEASHED_API_KEY (optional, per operator)
+```
+
 **Start the web UI:**
 ```bash
 python ui/server.py
+# Operator web UI available at http://localhost:8000
 ```
 
 **Start a Telegram operator (CLI session):**
@@ -325,15 +341,19 @@ Configuration lives in `CLAUDE.md` (operator behaviour), `operators/` (operator 
 
 ## Tech Stack
 
-**Backend:** Python 3.11, FastAPI, asyncio, httpx, Playwright
+**Backend:** Python 3.11, FastAPI, asyncio, httpx, Playwright — FastAPI for its async-first design and minimal overhead; the platform is IO-bound (API calls, webhooks, tool execution) so async matters.
 
-**AI / LLM:** Anthropic API (claude-sonnet-4, claude-opus-4), MCP protocol, Claude Code CLI, Whisper API (Groq / OpenAI)
+**AI / LLM:** Anthropic API (claude-sonnet-4, claude-opus-4), MCP protocol, Claude Code CLI, Whisper API (Groq / OpenAI) — MCP over custom tool wrappers because it standardises the tool-calling surface and offloads OAuth to the platform layer.
 
-**Integrations:** Google OAuth2, Telegram Bot API, Slack Bolt, Shopify REST, Unleashed REST + HMAC, Stripe, Spotify Web API, Starlink gRPC, GitHub REST
+**Integrations:** Google OAuth2, Telegram Bot API, Slack Bolt, Shopify REST, Unleashed REST + HMAC, Stripe, Spotify Web API, Starlink gRPC, GitHub REST — all implemented against vendor APIs directly, no third-party abstraction layers.
 
-**Frontend:** HTML / CSS / JavaScript (nine dashboard UIs), PWA-capable web UI
+**Event log:** Append-only JSONL per operator — chosen over a database to keep the system stateless and portable. Any session can be replayed or inspected with a text editor.
 
-**Infrastructure:** Self-hosted, VPS-portable, PowerShell scripting (Windows), designed for headless server deployment
+**Skills:** Markdown instruction files over compiled modules — runtime-loadable without restarts, editable without a deploy, and readable by non-engineers. The trade-off (no execution guarantees) is accepted: this is an LLM-driven system, not a deterministic pipeline.
+
+**Frontend:** HTML / CSS / JavaScript (nine dashboard UIs), PWA-capable web UI — no framework dependency, keeping the UI layer portable and easy to audit.
+
+**Infrastructure:** Self-hosted, VPS-portable, PowerShell scripting (Windows), designed for headless server deployment.
 
 ---
 
