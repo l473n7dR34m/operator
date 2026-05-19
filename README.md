@@ -1,20 +1,73 @@
-# operator
+# Operator
 
-A self-hosted AI operator platform. Deploy focused AI assistants for your team — wired to your tools, available on the channels your people already use, running entirely on your own infrastructure.
+![Python](https://img.shields.io/badge/Python-3.11%2B-blue?logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-async%20backend-009688?logo=fastapi&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Production%20%E2%80%94%20daily%20use-brightgreen)
+![License](https://img.shields.io/badge/License-Private-lightgrey)
+
+A self-hosted AI operator platform. Deploy focused AI assistants wired to your tools, available on the channels your team already uses, running entirely on your own infrastructure.
+
+Built and maintained by [Ryan Bullivant](https://github.com/l473n7dr34m) — Sysadmin / IT Lead, 10 years in IT operations, automation, and integrations.
 
 ---
 
-## What it is
+## Live Example: Dex
 
-Operator is a framework for deploying AI assistants into real workflows. Each **operator** has a defined identity, scope, and skill set. Staff interact via Telegram, Slack, or a local web UI. All channels share a single conversation log — context is preserved regardless of which channel someone used last.
+> The reference deployment. Ryan's personal AI operator, in daily production use since early 2026.
 
-Operators are not general-purpose chatbots. Each one is scoped to a specific role with a defined system prompt, a curated skill set, and a fixed set of allowed tools. A deployment might include an Inbox Operator, a Projects Operator, and an Inventory Operator — each one focused, each one fast.
+Dex runs on this platform and handles a real daily workload across Telegram and a local web UI. Context is preserved between channels — one brain, multiple entry points.
+
+**What it does in production:**
+
+- Triage and draft emails via Gmail, with full thread context
+- Create, update, and delete Google Calendar events from plain-language instructions
+- Deliver daily briefings: news, weather, surf report, today's schedule — one message, no fuss
+- Monitor inventory via the Unleashed Sentinel and fire Telegram alerts the moment stock goes RED
+- Automate a weekly grocery run: browse Coles, clear the cart, add items sorted by price
+- Generate tailored job application cover letters from a job description
+- Transcribe Telegram voice messages via Whisper API before processing
+- Run a personalised TV guide weekly, delivered by email
+- Track fire danger and flood warnings (NSW RFS / BOM) for a remote rural property
+- Log sessions, maintain memory across restarts, recover gracefully after context resets
+
+Responds in seconds. Occasionally sarcastic.
+
+> **Screenshot:** Dex responding in Telegram — inbox triage session
+
+> **Screenshot:** Nexus web UI — chat panel with Dex, live dashboard sidebar
+
+---
+
+## Skills Demonstrated
+
+Quick reference for hiring managers. Full detail in each section below.
+
+| Area | Specifics |
+|------|-----------|
+| **Python** | FastAPI backend, async handlers, subprocess management, HMAC auth, scheduled jobs |
+| **API integrations** | Gmail, Google Calendar, Google Drive, Slack, Telegram, Shopify, Unleashed, Stripe, Spotify, Starlink, GitHub, Anthropic |
+| **Auth** | Google OAuth2 (full flow), Bot token auth (Slack, Telegram), API key + HMAC signing (Unleashed) |
+| **LLM / AI tooling** | Anthropic API (Sonnet, Opus), MCP protocol, tool-use orchestration, prompt engineering, context management |
+| **Automation** | Cron scheduling, browser automation (Playwright), voice transcription pipeline (Whisper), event-driven hooks |
+| **System design** | Multi-channel unified context, modular operator registry, hot-swappable skill system, hook-based safety layer |
+| **Frontend** | Nine live dashboards (HTML/CSS/JS), PWA web UI, real-time data refresh |
+| **Infrastructure** | Self-hosted, VPS-portable, offline-capable (Starlink gRPC against local hardware) |
+
+---
+
+## What It Is
+
+Operator is a framework for deploying AI assistants into real workflows. Each **operator** has a defined identity, scope, and skill set. Users interact via Telegram, Slack, or a web UI. All channels share a single conversation log — context is preserved regardless of which channel was used last.
+
+Operators are not general-purpose chatbots. Each one is scoped to a specific role: a defined system prompt, a curated skill set, and a controlled set of allowed tools. A deployment might include an Inbox Operator, a Projects Operator, and an Inventory Operator — each one focused, each one fast.
+
+> **Screenshot:** Operator registry view — agents list with status and config overview
 
 ---
 
 ## Architecture
 
-The platform runs in two layers depending on whether portability to a server is required:
+The platform runs in two layers depending on whether server portability is needed:
 
 ```
                         CHANNELS
@@ -30,13 +83,12 @@ The platform runs in two layers depending on whether portability to a server is 
                              │
                ┌─────────────┴─────────────┐
                ▼                           ▼
-      claude CLI operators          FastAPI web UI
-      + MCP connectors              + Python tooling
-      (Gmail, Calendar,             layer (Google
-       Drive, Canva, etc.)          OAuth2, Slack API,
-       via claude.ai OAuth)         custom integrations)
-       — desktop/local              — portable to any
-                                    server or VPS
+      Claude CLI operators          FastAPI web UI
+      + MCP tool connectors         + Python tooling layer
+      (Gmail, Calendar, Drive,      (Google OAuth2, Slack API,
+       Canva — auth via             custom integrations)
+       claude.ai OAuth)             — portable to any VPS
+       — desktop/local
                │                           │
                └─────────────┬─────────────┘
                              ▼
@@ -46,15 +98,17 @@ The platform runs in two layers depending on whether portability to a server is 
                      + skills/ per operator
 ```
 
-**Messaging operators** run as `claude` CLI sessions with a channel plugin attached. They get Gmail, Google Calendar, Google Drive, and Canva MCP tools without any integration code — authentication is handled by claude.ai's OAuth.
+**MCP** (Model Context Protocol) is an open standard that lets an AI model call external tools at runtime — like a function library, but the AI decides when and how to use each tool. The CLI layer uses this to give operators access to Gmail, Calendar, Drive, and Canva without writing integration code — OAuth is handled by claude.ai.
 
-**Web UI operators** run via FastAPI calling the Anthropic API directly. The Python tooling layer provides the same integrations natively, making this path fully portable to a server without a claude CLI dependency.
+The **web UI layer** reimplements the same integrations natively in Python, making it fully portable to a server without a CLI dependency.
+
+> **Screenshot:** Architecture diagram or Nexus UI showing channel source tags in the conversation log
 
 ---
 
 ## Operator Registry
 
-Each operator lives in `agents/` as an isolated directory:
+Each operator is a self-contained directory:
 
 ```
 agents/
@@ -64,25 +118,15 @@ agents/
     skills/           — operator-specific skill overrides
 ```
 
-The web UI loads all agents at startup and provides a management interface: view status, switch between conversation logs, update configuration.
+The web UI loads all agents at startup. Operators can be added, updated, or swapped without touching application code.
 
----
-
-## Persona & Appearance
-
-Operators have defined identities — not just instructions. Each operator has a name, a personality, a consistent voice, and an appearance concept used across UI elements.
-
-**Dex** (the reference deployment) is defined as: dry, precise, occasionally sarcastic, and completely unbothered. Minimal words. Exact numbers. Treats every task like it's beneath them but does it perfectly.
-
-Visually: dark hair, angular face, one eye glowing blue (cybernetic), dark high-collar suit. Blue accent lighting. The kind of face that has already decided the answer before you finish the question.
-
-Operator appearance is defined in `system.md` alongside behaviour. The same file drives both personality and the Nexus UI's visual identity for that operator.
+> **Screenshot:** agents/ directory structure or web UI operator management panel
 
 ---
 
 ## Skills System
 
-Operators are extended through **skills** — modular instruction sets that load dynamically based on context. Each skill is a markdown file describing a specific capability: what it does, when to invoke it, and how to execute it step by step.
+Operators are extended through **skills** — modular instruction sets that load dynamically at runtime. Each skill is a markdown file: what it does, when to invoke it, and step-by-step execution instructions.
 
 ```
 skills/
@@ -92,201 +136,183 @@ skills/
   surf-report/        — swell conditions via BoM and Swellnet
   calendar/           — Google Calendar queries and updates
   gmail/              — inbox triage and email drafting
-  weather-alerts/     — fire danger and flood warnings
-  coles-shop/         — automated grocery cart via browser
+  weather-alerts/     — fire danger and flood warnings (NSW RFS / BOM)
+  coles-shop/         — automated grocery cart via Playwright browser
   unleashed-sentinel/ — inventory monitoring and reorder alerts
-  tv-guide/           — personalised weekly TV picks via email
-  ... (30+ skills)
+  tv-guide/           — personalised weekly TV picks delivered by email
+  ... (30+ skills total)
 ```
 
-Skills are plain markdown. No code changes required to add a new capability — write the instruction file, register the skill name in the operator's `system.md`, and the operator knows how to use it.
+No code changes required to add a capability. Write the instruction file, register the skill name in `system.md`, and the operator uses it.
 
 ### Orchestrator
 
-Multi-step workflows are defined as **systems** — pipeline definitions that chain skills together with checkpoints. The orchestrator reads the system file, invokes each skill in sequence, passes outputs forward, and pauses at defined checkpoints for human confirmation before continuing.
+Multi-step workflows are defined as **systems** — pipeline files that chain skills together with checkpoints. The orchestrator invokes each skill in sequence, passes outputs forward, and pauses at defined checkpoints for human confirmation before continuing.
 
-Available systems: job application pipeline, morning briefing, weekly review, garden check.
+Available pipelines: job application, morning briefing, weekly review, garden check.
+
+> **Screenshot:** Morning briefing pipeline output — news, weather, surf, calendar in a single Telegram message
+
+---
+
+## Integrations
+
+Fourteen live integrations. Each one is implemented, authenticated, and running in the reference deployment.
+
+| Integration | Auth method | What it does |
+|-------------|-------------|--------------|
+| **Gmail** | Google OAuth2 | Read threads, search, draft, send, label |
+| **Google Calendar** | Google OAuth2 | List, create, update, delete events |
+| **Google Drive** | Google OAuth2 | Read, search, copy, create files |
+| **Slack** | Slack Bolt (bot token) | Post, read, manage channels, structured logs |
+| **Telegram** | Bot API | Messages, file attachments, voice, emoji reactions |
+| **Canva** | MCP (OAuth) | Design creation, editing, export |
+| **Shopify** | REST Admin API | Orders, products, fulfilment status |
+| **Unleashed** | REST API + HMAC signing | Inventory, stock levels, purchase orders |
+| **Stripe** | REST API | Charges, subscriptions, revenue reporting |
+| **Spotify** | Web API | Playback state, history, library |
+| **Starlink** | gRPC (local dish API) | Signal quality, latency, uptime, obstruction map |
+| **GitHub** | REST API | Repos, commits, issues, pull requests |
+| **Whisper** | Groq / OpenAI API | Voice transcription (whisper-large-v3 / whisper-1) |
+| **Anthropic API** | Python SDK | All AI inference — Sonnet and Opus models |
+
+> **Screenshot:** Integrations dashboard or a Telegram alert fired from the Unleashed Sentinel
+
+---
+
+## Dashboards
+
+The Nexus web UI includes nine live per-service dashboards alongside the chat interface. Each pulls live data from its API on demand.
+
+| Dashboard | What it shows |
+|-----------|---------------|
+| **Gmail** | Unread count, recent threads, label overview |
+| **Slack** | Channel activity, unread messages |
+| **Shopify** | Orders, revenue, fulfilment queue |
+| **Unleashed** | Inventory levels, stock alerts, reorder queue |
+| **GitHub** | Repo activity, open PRs, recent commits |
+| **Stripe** | Revenue, recent charges, subscription status |
+| **Spotify** | Now playing, recently played, top tracks |
+| **Starlink** | Signal quality, latency, uptime, obstruction map |
+| **Anthropic** | API usage, token spend, model breakdown |
+
+Self-contained HTML pages served by the FastAPI backend. No external dependencies — all data fetched server-side.
+
+> **Screenshot:** Nexus dashboard panel — Unleashed stock levels or Starlink signal stats
 
 ---
 
 ## Hooks
 
-The platform extends Claude Code's hook system to wire operator behaviour to session events:
+Session behaviour is controlled by an event hook system. Hooks are Python scripts that run outside the AI context — reliable for logging and safety enforcement regardless of model behaviour.
 
-| Hook | Trigger | Action |
-|------|---------|--------|
-| `UserPromptSubmit` | User sends a message | Mirrors incoming message to Nexus web UI in real time |
-| `PostToolUse` | Tool call completes | Logs tool calls; mirrors Telegram replies to Nexus UI |
-| `Stop` | Session ends | Writes session log, updates current topic file, fires post-compaction recovery |
-| `PreToolUse` | Before tool call | Enforces safety rules — blocks destructive operations without confirmation |
+| Hook | Fires when | What it does |
+|------|-----------|--------------|
+| `UserPromptSubmit` | User sends a message | Mirrors message to Nexus web UI in real time |
+| `PostToolUse` | Any tool call completes | Logs tool calls; mirrors Telegram replies to Nexus |
+| `Stop` | Session ends | Writes session log, updates context files, fires post-compaction recovery |
+| `PreToolUse` | Before any tool call | Enforces safety rules — blocks destructive operations without explicit confirmation |
 
-Hooks are Python scripts in `scripts/`. They run outside the AI context, making them reliable for logging and safety enforcement regardless of model behaviour.
+This hook layer is how the platform enforces consistent safety behaviour that cannot be overridden by prompt manipulation.
 
 ---
 
 ## Unified Conversation Context
 
-All channels share a single conversation history. A message sent on Telegram, a reply via Slack, a follow-up in the web UI — the operator sees all of it in order, tagged by source.
+All channels share a single conversation history. A message sent on Telegram, a reply via Slack, a follow-up in the web UI — the operator sees them all in order, tagged by source.
 
 ```jsonl
-{"role": "user",    "source": "telegram", "ts": "...", "content": "..."}
+{"role": "user",     "source": "telegram", "ts": "...", "content": "..."}
 {"role": "assistant","source": "telegram", "ts": "...", "content": "..."}
-{"role": "user",    "source": "nexus",    "ts": "...", "content": "..."}
+{"role": "user",     "source": "nexus",    "ts": "...", "content": "..."}
 ```
 
 No context loss between channels. One brain, multiple entry points.
 
 ---
 
-## Dashboards
+## Voice Pipeline
 
-The Nexus web UI includes live per-service dashboards alongside the chat interface. Each dashboard pulls data from its respective API and presents it in a compact, mobile-friendly format:
-
-| Dashboard | Data source |
-|-----------|-------------|
-| Gmail | Unread count, recent threads, label overview |
-| Slack | Channel activity, unread messages |
-| Shopify | Orders, revenue, fulfilment status |
-| Unleashed | Inventory levels, stock alerts, reorder queue |
-| GitHub | Repo activity, open PRs, commit history |
-| Stripe | Revenue, recent charges, subscription status |
-| Spotify | Now playing, recently played, top tracks |
-| Starlink | Signal quality, latency, uptime, obstruction map |
-| Anthropic | API usage, token spend, model breakdown |
-
-Dashboards are self-contained HTML pages served by the FastAPI backend, with data refreshed on demand or on a schedule.
-
----
-
-## Schedules
-
-Operators support scheduled tasks via the `CronCreate` tool. A scheduled job can:
-
-- Run any skill or pipeline on a defined interval
-- Fire alerts when conditions are met (e.g. stock goes RED in the sentinel)
-- Send digests (weekly TV guide, morning briefing) at a configured time
-- Trigger recovery pings after context compaction
-
-Schedules are defined per-operator and persist across sessions.
-
----
-
-## Channels
-
-### Telegram
-Primary mobile interface. Two-way messaging with the operator. Supports:
-- Text, images, file attachments
-- Voice messages (transcribed via Whisper API before processing)
-- Emoji reactions for lightweight acknowledgement
-- Reply threading for multi-message conversations
-
-### Slack
-Workspace integration. The operator can:
-- Post to any channel
-- Read channel history
-- Create new channels
-- Maintain structured channels (briefings, logs, backlog, projects)
-
-### Nexus Web UI
-Local or VPS-hosted PWA. The primary management interface:
-- Full chat with the operator
-- Dashboard panel (per-service views above)
-- Operator registry and configuration
-- Unified conversation log viewer across all channels
-- Installable from browser — no app store required
-
----
-
-## Voice Messages
-
-Voice messages sent to any channel are transcribed before processing:
+Voice messages sent via Telegram are transcribed before processing:
 
 ```
-Telegram voice message → download → Whisper API (Groq or OpenAI) → transcript → operator
+Telegram voice note → download → Whisper API (Groq or OpenAI) → transcript → operator
 ```
 
 Transcription is confirmed to the user in one line before the response. Supports Groq (`whisper-large-v3`) and OpenAI (`whisper-1`).
 
 ---
 
-## Integrations
+## Scheduled Tasks
 
-| Integration | Method | Capabilities |
-|-------------|--------|-------------|
-| Gmail | MCP (CLI) / Google OAuth2 (web) | Read, search, draft, send, label |
-| Google Calendar | MCP (CLI) / Google OAuth2 (web) | List, create, update, delete events |
-| Google Drive | MCP (CLI) / Google OAuth2 (web) | Read, search, copy, create files |
-| Slack | Slack Bolt (bot token) | Post, read, manage channels |
-| Telegram | Bot API | Messages, files, voice, reactions |
-| Canva | MCP (CLI) | Design creation and export |
-| Shopify | REST Admin API | Orders, products, fulfilment |
-| Unleashed | REST API + HMAC auth | Inventory, products, purchase orders |
-| Stripe | REST API | Charges, subscriptions, revenue |
-| Spotify | Web API | Playback state, history, library |
-| Starlink | gRPC (local dish API) | Signal stats, latency, obstruction |
-| GitHub | REST API | Repos, commits, issues, PRs |
-| Whisper | Groq / OpenAI API | Voice transcription |
-| Anthropic API | Python SDK | All AI inference (Sonnet, Opus) |
+Operators support cron-based scheduling. Jobs can:
+
+- Run any skill or pipeline on an interval
+- Fire alerts when conditions are met (e.g. stock drops below threshold)
+- Deliver digests at a fixed time (weekly TV guide, morning briefing)
+- Trigger recovery pings after context compaction
+
+Schedules persist across sessions and are defined per operator.
+
+---
+
+## Persona and Identity
+
+Operators have defined identities — not just instructions. Each operator has a name, a consistent personality, a voice, and a visual appearance concept used across UI elements.
+
+**Dex** (the reference deployment): dry, precise, occasionally sarcastic, and completely unbothered. Minimal words. Exact numbers. Treats every task like it's beneath them but does it perfectly.
+
+Visual concept: dark hair, angular face, one eye glowing blue (cybernetic), dark high-collar suit. Blue accent lighting.
+
+Identity is defined in `system.md` alongside behavioural instructions. The same file drives both personality and the Nexus UI's visual theme for that operator.
+
+> **Screenshot:** Nexus UI showing Dex's visual identity and persona reflected in the interface
 
 ---
 
 ## Deployment
 
-Self-hosted, per instance. No multi-tenancy, no shared data.
+Self-hosted per instance. No multi-tenancy, no shared data, no external telemetry after setup.
 
 **Requirements:**
 - Python 3.11+
-- Claude Code CLI (for messaging channel operators)
-- Channel credentials (Telegram bot token, Slack app, etc.)
-- Google OAuth2 credentials (for Google Workspace integrations)
+- Claude Code CLI (for CLI-channel operators)
+- Channel credentials (Telegram bot token, Slack app credentials)
+- Google OAuth2 credentials (for Gmail, Calendar, Drive)
 
-**Startup:**
+**Start the web UI:**
 ```bash
-# Web UI
 python ui/server.py
+```
 
-# Telegram operator (CLI session)
+**Start a Telegram operator (CLI session):**
+```bash
 claude --dangerously-skip-permissions --channels plugin:telegram@claude-plugins-official
 ```
 
-Configuration lives in `CLAUDE.md` (operator behaviour), `agents/` (operator registry), and `.env` (credentials). Each instance is fully isolated — no telemetry, no remote access after handover.
-
----
-
-## Live Example: Dex
-
-Dex is the reference deployment — Ryan's personal AI operator, running daily since early 2026.
-
-**What it handles:**
-
-- Inbox triage and email drafting (Gmail)
-- Calendar management — create, update, delete events (Google Calendar)
-- Daily briefings: news, weather, surf report, schedule
-- Job search and tailored cover letter writing
-- Grocery automation (Coles — browser-based cart filling)
-- Inventory monitoring: Unleashed Sentinel fires Telegram alerts when stock goes RED
-- Personalised TV guide delivered weekly by email
-- Session logging and weekly review pipeline
-- Voice message transcription
-- Fire danger and flood warnings (NSW RFS / BoM)
-- Garden tracking (off-grid permaculture plot, Northern Rivers NSW)
-
-Available on Telegram (primary) and the Nexus web UI. Context preserved across both. Responds in seconds. Occasionally sarcastic.
-
----
-
-## Screenshots
-
-*Coming soon — Nexus web UI, Telegram session, dashboard views, skills in action.*
+Configuration lives in `CLAUDE.md` (operator behaviour), `agents/` (operator registry), and `.env` (credentials). Fully isolated — no remote access after handover.
 
 ---
 
 ## Tech Stack
 
-Python · FastAPI · Claude Code CLI · Anthropic API (claude-sonnet-4, claude-opus-4) · MCP protocol · Google OAuth2 · Telegram Bot API · Slack Bolt · Whisper API (Groq / OpenAI) · PowerShell · HTML/CSS/JS (dashboard UIs)
+**Backend:** Python 3.11, FastAPI, asyncio, httpx, Playwright
+
+**AI / LLM:** Anthropic API (claude-sonnet-4, claude-opus-4), MCP protocol, Claude Code CLI, Whisper API (Groq / OpenAI)
+
+**Integrations:** Google OAuth2, Telegram Bot API, Slack Bolt, Shopify REST, Unleashed REST + HMAC, Stripe, Spotify Web API, Starlink gRPC, GitHub REST
+
+**Frontend:** HTML / CSS / JavaScript (nine dashboard UIs), PWA-capable web UI
+
+**Infrastructure:** Self-hosted, VPS-portable, PowerShell scripting (Windows), designed for headless server deployment
 
 ---
 
 ## Status
 
-Active development. The reference deployment (Dex) is in daily use. The platform is being hardened for multi-client deployment.
+Active development. The reference deployment (Dex) has been in daily production use since early 2026. The platform is being hardened for multi-client deployment.
+
+---
+
+*Built by Ryan Bullivant — Systems Administrator, automation builder, and reluctant perfectionist.*
+*GitHub: [l473n7dr34m](https://github.com/l473n7dr34m)*
