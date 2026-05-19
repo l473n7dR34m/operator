@@ -13,15 +13,17 @@ Built by [Ryan Bullivant](https://github.com/l473n7dr34m).
 
 ## What It Is
 
-When a message arrives on Telegram, it hits a bot webhook and gets routed to a running Claude session — the operator's brain. Claude reads the message, decides which tools or skills to invoke, calls them, and replies. The full exchange is written to a shared conversation log tagged by channel and timestamp. A message sent on Telegram, a follow-up in the web UI, a ping from a scheduled job — Claude sees them all in order and keeps the thread.
+An **operator** is a focused AI assistant with a defined identity, a specific scope, and a curated set of tools. Not a general-purpose chatbot — each operator is configured for a role: inbox management, inventory monitoring, commerce ops, or whatever the deployment requires. The identity lives in a system prompt; the capabilities come from skills, integrations, and scheduled jobs layered on top.
 
-Behind the scenes, Claude Code runs as the runtime. Each operator is configured with a system prompt that defines its identity, scope, and allowed tools. Skills load dynamically at runtime as markdown instruction sets. MCP (Model Context Protocol) connectors give the operator access to external services — Gmail, Calendar, Drive, Canva — without writing integration code. Hooks (Python scripts that run outside the AI context) handle logging, safety enforcement, and cross-channel mirroring regardless of what the model does.
+### How it works
 
-The channel layer is where users actually interact. Telegram is the primary interface — fast, mobile, supports voice messages, files, and emoji reactions. The same operator is also available via Slack and a local web UI (Nexus), all reading from the same conversation history. One brain, multiple entry points.
+The primary channel is **Telegram**. Send a message and it hits a bot webhook, which routes it to a running Claude Code session — the operator's brain. Claude reads the message in context, decides what to do, calls the relevant tools or skills, and sends a reply. The whole exchange is written to a shared conversation log tagged by source channel and timestamp.
 
-Each **operator** has a defined identity, scope, and skill set. Operators are not general-purpose chatbots — each one is scoped to a specific role: a defined system prompt, a curated skill set, and a controlled set of allowed tools. A deployment might include an Inbox Operator, a Projects Operator, and an Inventory Operator — each one focused, each one fast.
+That same log is read by every other channel. Open the **Nexus web UI**, type a follow-up, and the operator already knows what you were talking about on Telegram. A **Slack** message lands in the same thread. A scheduled job fires at 7am and its output joins the same history. One persistent brain, multiple entry points — no context loss between channels.
 
-The real power comes from combining all three extension layers at once. An operator's **skills** give it capabilities (draft an email, check stock levels, plan a meal). Its **dashboards** surface live data without needing to ask for it (inventory levels, order queue, API spend). Its **schedules** make it proactive rather than reactive — briefings fire at 7am, alerts fire the moment a threshold is crossed, weekly digests go out automatically. A well-configured operator doesn't wait to be told what to do.
+Behind the scenes, **MCP connectors** (Model Context Protocol — an open standard for AI tool use) give operators live access to external services: Gmail, Google Calendar, Drive, Canva, and more. Auth is handled via OAuth; no custom integration code per service. **Python hooks** run outside the AI context on every tool call, session start, and session end — they handle logging, cross-channel mirroring, and safety enforcement regardless of what the model does. **Skills** are markdown instruction files that load at runtime, letting you add capabilities without touching application code.
+
+The real power comes from combining all three extension layers. An operator's **skills** give it capabilities. Its **dashboards** surface live data without needing to ask. Its **schedules** make it proactive rather than reactive — briefings at 7am, stock alerts the moment a threshold is crossed, weekly digests sent automatically. A well-configured operator doesn't wait to be told what to do.
 
 ---
 
