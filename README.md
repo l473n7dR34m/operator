@@ -266,15 +266,13 @@ Each operator is a distinct identity with its own personality, visual concept, a
 
 Dry, precise, occasionally sarcastic, completely unbothered. Minimal words. Exact numbers. Treats every task like it's beneath them but does it perfectly anyway.
 
-Dark hair, angular face, dark high-collar suit. Blue accent lighting throughout.
-
 Scope: personal productivity — inbox, calendar, briefings, job search, home and property management.
 
-Operator portraits are state-aware. The portrait updates to match current activity — standby, active, thinking, or scanning.
+Operator portraits are state-aware. The portrait updates to match current activity.
 
-| Standby | Active | Thinking | Scanning |
-|:-------:|:------:|:--------:|:--------:|
 | ![](screenshots/dex-standby.jpg) | ![](screenshots/dex-active.jpg) | ![](screenshots/dex-thinking.jpg) | ![](screenshots/dex-scanning.jpg) |
+|:-------:|:------:|:--------:|:--------:|
+| Standby | Active | Thinking | Scanning |
 
 ---
 
@@ -282,11 +280,9 @@ Operator portraits are state-aware. The portrait updates to match current activi
 
 Built for ecommerce and retail operations. Inventory, orders, fulfilment, Shopify management, and sales reporting. Wired to Shopify, Unleashed, and Stripe. Deployed where a business needs a commerce brain available on demand rather than a dashboard to babysit.
 
-Where Dex is cold and blue, Merchant runs warm gold. Dark curly hair, amber eyes, gold circuit traces, business suit with lapels. When active, financial data projects off the side of his face. The contrast between operators is intentional — each one has a visual identity that signals its domain.
-
-| Standby | Active | Thinking | Alert |
-|:-------:|:------:|:--------:|:-----:|
 | ![](screenshots/merchant-standby.jpg) | ![](screenshots/merchant-active.jpg) | ![](screenshots/merchant-thinking.jpg) | ![](screenshots/merchant-alert.jpg) |
+|:-------:|:------:|:--------:|:-----:|
+| Standby | Active | Thinking | Alert |
 
 ---
 
