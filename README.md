@@ -5,7 +5,7 @@
 ![Status](https://img.shields.io/badge/Status-Production%20%E2%80%94%20daily%20use-brightgreen)
 ![License](https://img.shields.io/badge/License-Private-lightgrey)
 
-A self-hosted AI operator platform for individuals and small teams. Deploy focused AI assistants wired to your tools, available on the channels you already use, running entirely on your own infrastructure.
+A personal AI operations layer built around a persistent event log, tool adapters, and LLM decision-making. Self-hosted, single-operator or small-team scale. Deploy focused AI assistants wired to your tools, available on the channels you already use, running entirely on your own infrastructure.
 
 ---
 
@@ -333,5 +333,5 @@ Configuration lives in `CLAUDE.md` (operator behaviour), `operators/` (operator 
 
 ## Status
 
-Active development. The reference deployment (Dex) has been in daily production use since early 2026. The platform is being hardened for multi-client deployment.
+Active development. The reference deployment (Dex) has been running as a personal AI assistant since early 2026 — handling a real daily workload across Telegram and the Operator web UI. This is personal-scale production use, not enterprise deployment. The codebase is being extended and refined for broader deployment to additional operators and use cases.
 
