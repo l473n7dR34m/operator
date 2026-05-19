@@ -275,11 +275,8 @@ Scope: personal productivity — inbox, calendar, briefings, job search, home an
 Operator portraits are state-aware. The portrait updates to match current activity — standby, active, thinking, or scanning.
 
 | Standby | Active | Thinking | Scanning |
-|:-------:|:------:|:--------:|:-------:|
+|:-------:|:------:|:--------:|:--------:|
 | ![](screenshots/dex-standby.jpg) | ![](screenshots/dex-active.jpg) | ![](screenshots/dex-thinking.jpg) | ![](screenshots/dex-scanning.jpg) |
-
-![Dex operator panel](screenshots/operator-dex-panel.jpg)
-*Dex operator panel — portrait, status, and channel controls*
 
 ---
 
