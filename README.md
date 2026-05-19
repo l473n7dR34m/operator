@@ -11,6 +11,18 @@ Built by [Ryan Bullivant](https://github.com/l473n7dr34m).
 
 ---
 
+## What It Is
+
+Operator is a framework for deploying AI assistants into real workflows. Each **operator** has a defined identity, scope, and skill set. Users interact via Telegram, Slack, or a web UI. All channels share a single conversation log — context is preserved regardless of which channel was used last.
+
+Operators are not general-purpose chatbots. Each one is scoped to a specific role: a defined system prompt, a curated skill set, and a controlled set of allowed tools. A deployment might include an Inbox Operator, a Projects Operator, and an Inventory Operator — each one focused, each one fast.
+
+The real power comes from combining all three extension layers at once. An operator's **skills** give it capabilities (draft an email, check stock levels, plan a meal). Its **dashboards** surface live data without needing to ask for it (inventory levels, order queue, API spend). Its **schedules** make it proactive rather than reactive — briefings fire at 7am, alerts fire the moment a threshold is crossed, weekly digests go out automatically. A well-configured operator doesn't wait to be told what to do.
+
+> **Screenshot:** Operator registry view — operators list with status and config overview
+
+---
+
 ## Live Example: Dex
 
 The reference deployment — a personal AI operator running daily since early 2026. Handles a real workload across Telegram and a local web UI. Context is preserved between channels: one brain, multiple entry points.
@@ -33,16 +45,6 @@ Responds in seconds. Occasionally sarcastic.
 > **Screenshot:** Dex responding in Telegram — inbox triage session
 
 > **Screenshot:** Nexus web UI — chat panel with Dex, live dashboard sidebar
-
----
-
-## What It Is
-
-Operator is a framework for deploying AI assistants into real workflows. Each **operator** has a defined identity, scope, and skill set. Users interact via Telegram, Slack, or a web UI. All channels share a single conversation log — context is preserved regardless of which channel was used last.
-
-Operators are not general-purpose chatbots. Each one is scoped to a specific role: a defined system prompt, a curated skill set, and a controlled set of allowed tools. A deployment might include an Inbox Operator, a Projects Operator, and an Inventory Operator — each one focused, each one fast.
-
-> **Screenshot:** Operator registry view — agents list with status and config overview
 
 ---
 
@@ -74,7 +76,7 @@ The platform runs in two layers depending on whether server portability is neede
                └─────────────┬─────────────┘
                              ▼
                      Operator registry
-                     (agents/ directory)
+                     (operators/ directory)
                      config.json + system.md
                      + skills/ per operator
 ```
@@ -92,18 +94,18 @@ The **web UI layer** reimplements the same integrations natively in Python, maki
 Each operator is a self-contained directory:
 
 ```
-agents/
+operators/
   dex/
     config.json       — id, name, model, channel, log path
     system.md         — persona, scope, allowed tools, response format
     skills/           — operator-specific skill overrides
 ```
 
-The web UI loads all agents at startup. Operators can be added, updated, or swapped without touching application code.
+The web UI loads all operators at startup. Operators can be added, updated, or swapped without touching application code.
 
 New integrations, dashboards, skills, and scheduled jobs can all be added without rebuilding the platform. New integration: add it to the Python tooling layer and register the tool. New dashboard: a self-contained HTML page served by the FastAPI backend. New skill: a markdown instruction file. New scheduled job: a cron definition per operator. Each extension is isolated — nothing breaks when you add something.
 
-> **Screenshot:** agents/ directory structure or web UI operator management panel
+> **Screenshot:** operators/ directory structure or web UI operator management panel
 
 ---
 
@@ -286,7 +288,7 @@ python ui/server.py
 claude --dangerously-skip-permissions --channels plugin:telegram@claude-plugins-official
 ```
 
-Configuration lives in `CLAUDE.md` (operator behaviour), `agents/` (operator registry), and `.env` (credentials). Fully isolated — no remote access after handover.
+Configuration lives in `CLAUDE.md` (operator behaviour), `operators/` (operator registry), and `.env` (credentials). Fully isolated — no remote access after handover.
 
 ---
 
