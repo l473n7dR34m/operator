@@ -222,20 +222,6 @@ The hook layer adds predictable, auditable behaviour that doesn't depend on mode
 
 ---
 
-## Unified Conversation Context
-
-All channels share a single conversation history. A message sent on Telegram, a reply via Slack, a follow-up in the web UI — the operator sees them all in order, tagged by source.
-
-```jsonl
-{"role": "user",     "source": "telegram", "ts": "...", "content": "..."}
-{"role": "assistant","source": "telegram", "ts": "...", "content": "..."}
-{"role": "user",     "source": "operator", "ts": "...", "content": "..."}
-```
-
-No context loss between channels. One brain, multiple entry points.
-
----
-
 ## Voice Pipeline
 
 Voice messages sent via Telegram are transcribed before processing:
