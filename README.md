@@ -139,6 +139,7 @@ skills/
   weather-alerts/     — fire danger and flood warnings (NSW RFS / BOM)
   coles-shop/         — automated grocery cart via Playwright browser
   unleashed-sentinel/ — inventory monitoring and reorder alerts
+  shopify/            — order lookup, fulfilment status, POS support across retail locations, product management via Admin API
   tv-guide/           — personalised weekly TV picks delivered by email
   ... (30+ skills total)
 ```
