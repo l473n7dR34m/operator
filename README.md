@@ -5,9 +5,9 @@
 ![Status](https://img.shields.io/badge/Status-Production%20%E2%80%94%20daily%20use-brightgreen)
 ![License](https://img.shields.io/badge/License-Private-lightgrey)
 
-Most productivity tools don't talk to each other. You've got a Telegram message, an open calendar, an inbox, a Slack thread, and a Shopify order — all needing attention, all in separate places, none sharing context. Every switch costs you the thread.
+The problem with most AI assistant setups: no shared context between channels. A message on Telegram, a follow-up in the web UI, a scheduled job output — they're all separate. Every context switch costs you the thread.
 
-Operator is a personal AI operations layer that puts a single AI assistant across all of it. Built around a persistent event log, tool adapters, and LLM decision-making. Self-hosted, single-operator or small-team scale.
+Operator is a platform for running focused AI assistants — operators — each with a defined identity, a specific scope, and a persistent shared event log across channels. Built around a persistent event log, tool adapters, and LLM decision-making. Self-hosted, designed for single-operator to multi-operator deployment.
 
 ---
 
@@ -135,7 +135,7 @@ skills/
   unleashed-sentinel/ — inventory monitoring and reorder alerts
   shopify/            — order lookup, fulfilment status, POS support across retail locations, product management via Admin API
   tv-guide/           — personalised weekly TV picks delivered by email
-  ... (30+ skills total)
+  ... (full list in skills/)
 ```
 
 No code changes required to add a capability. Write the instruction file, register the skill name in `system.md`, and the operator uses it.
@@ -168,7 +168,7 @@ Fourteen live integrations. Each one is implemented, authenticated, and running 
 | **Unleashed** | REST API + HMAC signing | Inventory, stock levels, purchase orders |
 | **Stripe** | REST API | Charges, subscriptions, revenue reporting |
 | **Spotify** | Web API | Playback state, history, library |
-| **Starlink** | gRPC (local dish API) | Signal quality, latency, uptime, obstruction map |
+| **Starlink** | gRPC (local dish API) | Signal quality, latency, uptime, obstruction map — primary internet at an off-grid property |
 | **GitHub** | REST API | Repos, commits, issues, pull requests |
 | **Whisper** | Groq / OpenAI API | Voice transcription (whisper-large-v3 / whisper-1) |
 | **Anthropic API** | Python SDK | All AI inference — Sonnet and Opus models |
@@ -177,7 +177,7 @@ Fourteen live integrations. Each one is implemented, authenticated, and running 
 
 ## Dashboards
 
-The Operator web UI includes nine live per-service dashboards alongside the chat interface. Each pulls live data from its API on demand.
+The Operator web UI includes nine per-service dashboards alongside the chat interface. Each pulls live data from its API on demand and is hooked into the operator's skills and capabilities — so the same data a dashboard surfaces can be queried, acted on, or alerted against by the operator.
 
 | Dashboard | What it shows |
 |-----------|---------------|
@@ -191,7 +191,7 @@ The Operator web UI includes nine live per-service dashboards alongside the chat
 | **Starlink** | Signal quality, latency, uptime, obstruction map |
 | **Anthropic** | API usage, token spend, model breakdown |
 
-Self-contained HTML pages served by the FastAPI backend. No external dependencies — all data fetched server-side.
+Self-contained HTML pages served by the FastAPI backend. No external dependencies — all data fetched server-side. Dashboard coverage is being extended alongside the integration layer.
 
 ![Dashboards panel](screenshots/dashboards-panel.jpg)
 
