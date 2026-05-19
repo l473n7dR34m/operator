@@ -329,7 +329,7 @@ Configuration lives in `CLAUDE.md` (operator behaviour), `operators/` (operator 
 
 **Backend:** Python 3.11, FastAPI, asyncio, httpx, Playwright — FastAPI for its async-first design and minimal overhead; the platform is IO-bound (API calls, webhooks, tool execution) so async matters.
 
-**AI / LLM:** Anthropic API (claude-sonnet-4, claude-opus-4), MCP protocol, Claude Code CLI, Whisper API (Groq / OpenAI) — MCP over custom tool wrappers because it standardises the tool-calling surface and offloads OAuth to the platform layer.
+**AI / LLM:** Anthropic API (claude-sonnet-4, claude-opus-4), MCP protocol, Claude Code CLI, Whisper API (Groq / OpenAI) — the CLI layer uses MCP connectors (standardised tool calling, OAuth via claude.ai); the web UI layer uses custom Python adapters (portable to any VPS, no CLI dependency). Two different integration strategies for two different deployment targets.
 
 **Integrations:** Google OAuth2, Telegram Bot API, Slack Bolt, Shopify REST, Unleashed REST + HMAC, Stripe, Spotify Web API, Starlink gRPC, GitHub REST — all implemented against vendor APIs directly, no third-party abstraction layers.
 
