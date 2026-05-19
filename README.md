@@ -101,6 +101,8 @@ agents/
 
 The web UI loads all agents at startup. Operators can be added, updated, or swapped without touching application code.
 
+New integrations, dashboards, skills, and scheduled jobs can all be added without rebuilding the platform. New integration: add it to the Python tooling layer and register the tool. New dashboard: a self-contained HTML page served by the FastAPI backend. New skill: a markdown instruction file. New scheduled job: a cron definition per operator. Each extension is isolated — nothing breaks when you add something.
+
 > **Screenshot:** agents/ directory structure or web UI operator management panel
 
 ---
@@ -238,17 +240,29 @@ Schedules persist across sessions and are defined per operator.
 
 ---
 
-## Persona and Identity
+## Operators
 
-Operators have defined identities — not just instructions. Each operator has a name, a consistent personality, a voice, and a visual appearance concept used across UI elements.
+Each operator is a distinct identity with its own personality, visual concept, and domain of responsibility. Identity is defined in `system.md` alongside behavioural instructions. The same file drives personality, scope, and the Nexus UI's visual theme for that operator.
 
-**Dex** (the reference deployment): dry, precise, occasionally sarcastic, and completely unbothered. Minimal words. Exact numbers. Treats every task like it's beneath them but does it perfectly.
+---
 
-Visual concept: dark hair, angular face, one eye glowing blue (cybernetic), dark high-collar suit. Blue accent lighting.
+### Dex — Personal Assistant
 
-Identity is defined in `system.md` alongside behavioural instructions. The same file drives both personality and the Nexus UI's visual theme for that operator.
+Dry, precise, occasionally sarcastic, completely unbothered. Minimal words. Exact numbers. Treats every task like it's beneath them but does it perfectly anyway.
 
-> **Screenshot:** Nexus UI showing Dex's visual identity and persona reflected in the interface
+Visual concept: dark hair slicked back, angular face, one eye glowing blue (cybernetic), dark high-collar suit. Blue accent lighting. Cold and composed.
+
+Scope: personal productivity — inbox, calendar, briefings, job search, home and property management.
+
+> **Screenshot:** Dex visual identity in Nexus UI
+
+---
+
+### Merchant — Commerce Operator
+
+Built for ecommerce and retail operations. Inventory, orders, fulfilment, Shopify management, and sales reporting. Wired to Shopify, Unleashed, and Stripe. Deployed where a business needs a commerce brain available on demand rather than a dashboard to babysit.
+
+> **Screenshot:** Merchant visual identity and Shopify/Unleashed dashboard
 
 ---
 
