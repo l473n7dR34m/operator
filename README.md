@@ -93,8 +93,6 @@ The platform runs in two layers depending on whether server portability is neede
 
 The **web UI layer** reimplements the same integrations natively in Python, making it fully portable to a server without a CLI dependency.
 
-![Operator web UI — unified conversation log](screenshots/nexus-secure-channel.jpg)
-*Unified conversation log — messages from Telegram, Slack, and the web UI in a single thread*
 
 ---
 
@@ -114,8 +112,7 @@ The web UI loads all operators at startup. Operators can be added, updated, or s
 
 New integrations, dashboards, skills, and scheduled jobs can all be added without rebuilding the platform. New integration: add it to the Python tooling layer and register the tool. New dashboard: a self-contained HTML page served by the FastAPI backend. New skill: a markdown instruction file. New scheduled job: a cron definition per operator. Each extension is isolated — nothing breaks when you add something.
 
-![Appearance panel](screenshots/appearance-panel.jpg)
-*Operator UI appearance panel — theme selection per operator*
+
 
 ---
 
