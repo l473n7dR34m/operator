@@ -19,7 +19,7 @@ An **operator** is a focused AI assistant with a defined identity, a specific sc
 
 The primary channel is **Telegram**. Send a message and it hits a bot webhook, which routes it to a running Claude Code session — the operator's brain. Claude reads the message in context, decides what to do, calls the relevant tools or skills, and sends a reply. The whole exchange is written to a shared conversation log tagged by source channel and timestamp.
 
-That same log is read by every other channel. Open the **Nexus web UI**, type a follow-up, and the operator already knows what you were talking about on Telegram. A **Slack** message lands in the same thread. A scheduled job fires at 7am and its output joins the same history. One persistent brain, multiple entry points — no context loss between channels.
+That same log is read by every other channel. Open the **Operator web UI**, type a follow-up, and the operator already knows what you were talking about on Telegram. A **Slack** message lands in the same thread. A scheduled job fires at 7am and its output joins the same history. One persistent brain, multiple entry points — no context loss between channels.
 
 Behind the scenes, **MCP connectors** (Model Context Protocol — an open standard for AI tool use) give operators live access to external services: Gmail, Google Calendar, Drive, Canva, and more. Auth is handled via OAuth; no custom integration code per service. **Python hooks** run outside the AI context on every tool call, session start, and session end — they handle logging, cross-channel mirroring, and safety enforcement regardless of what the model does. **Skills** are markdown instruction files that load at runtime, letting you add capabilities without touching application code.
 
@@ -48,7 +48,7 @@ Responds in seconds. Occasionally sarcastic.
 
 ![Dex in Telegram](screenshots/telegram-dex-priorities.jpg)
 
-![Nexus secure channel](screenshots/nexus-secure-channel.jpg)
+![Operator web UI](screenshots/nexus-secure-channel.jpg)
 
 ---
 
@@ -59,7 +59,7 @@ The platform runs in two layers depending on whether server portability is neede
 ```
                         CHANNELS
         ┌─────────────┬──────────────┬─────────────┐
-        │  Telegram   │    Slack     │  Nexus UI   │
+        │  Telegram   │    Slack     │  Operator   │
         └──────┬──────┴──────┬───────┴──────┬──────┘
                │             │              │
                └─────────────┼──────────────┘
@@ -89,7 +89,7 @@ The platform runs in two layers depending on whether server portability is neede
 
 The **web UI layer** reimplements the same integrations natively in Python, making it fully portable to a server without a CLI dependency.
 
-![Nexus secure channel — unified conversation log](screenshots/nexus-secure-channel.jpg)
+![Operator web UI — unified conversation log](screenshots/nexus-secure-channel.jpg)
 
 ---
 
@@ -172,7 +172,7 @@ Fourteen live integrations. Each one is implemented, authenticated, and running 
 
 ## Dashboards
 
-The Nexus web UI includes nine live per-service dashboards alongside the chat interface. Each pulls live data from its API on demand.
+The Operator web UI includes nine live per-service dashboards alongside the chat interface. Each pulls live data from its API on demand.
 
 | Dashboard | What it shows |
 |-----------|---------------|
@@ -200,8 +200,8 @@ Session behaviour is controlled by an event hook system. Hooks are Python script
 
 | Hook | Fires when | What it does |
 |------|-----------|--------------|
-| `UserPromptSubmit` | User sends a message | Mirrors message to Nexus web UI in real time |
-| `PostToolUse` | Any tool call completes | Logs tool calls; mirrors Telegram replies to Nexus |
+| `UserPromptSubmit` | User sends a message | Mirrors message to Operator web UI in real time |
+| `PostToolUse` | Any tool call completes | Logs tool calls; mirrors Telegram replies to Operator |
 | `Stop` | Session ends | Writes session log, updates context files, fires post-compaction recovery |
 | `PreToolUse` | Before any tool call | Enforces safety rules — blocks destructive operations without explicit confirmation |
 
@@ -216,7 +216,7 @@ All channels share a single conversation history. A message sent on Telegram, a 
 ```jsonl
 {"role": "user",     "source": "telegram", "ts": "...", "content": "..."}
 {"role": "assistant","source": "telegram", "ts": "...", "content": "..."}
-{"role": "user",     "source": "nexus",    "ts": "...", "content": "..."}
+{"role": "user",     "source": "operator", "ts": "...", "content": "..."}
 ```
 
 No context loss between channels. One brain, multiple entry points.
@@ -252,7 +252,7 @@ Schedules persist across sessions and are defined per operator.
 
 ## Operators
 
-Each operator is a distinct identity with its own personality, visual concept, and domain of responsibility. Identity is defined in `system.md` alongside behavioural instructions. The same file drives personality, scope, and the Nexus UI's visual theme for that operator.
+Each operator is a distinct identity with its own personality, visual concept, and domain of responsibility. Identity is defined in `system.md` alongside behavioural instructions. The same file drives personality, scope, and the Operator UI's visual theme for that operator.
 
 ---
 
