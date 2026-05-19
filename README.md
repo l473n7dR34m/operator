@@ -170,9 +170,6 @@ Fourteen live integrations. Each one is implemented, authenticated, and running 
 | **Whisper** | Groq / OpenAI API | Voice transcription (whisper-large-v3 / whisper-1) |
 | **Anthropic API** | Python SDK | All AI inference — Sonnet and Opus models |
 
-![Dashboards panel](screenshots/dashboards-panel.jpg)
-*Dashboards panel — nine live integrations, pinnable per operator*
-
 ---
 
 ## Dashboards
@@ -192,6 +189,9 @@ The Operator web UI includes nine live per-service dashboards alongside the chat
 | **Anthropic** | API usage, token spend, model breakdown |
 
 Self-contained HTML pages served by the FastAPI backend. No external dependencies — all data fetched server-side.
+
+![Dashboards panel](screenshots/dashboards-panel.jpg)
+*Dashboards panel — nine live integrations, pinnable per operator*
 
 ![Unleashed dashboard](screenshots/dashboard-unleashed.jpg)
 *Unleashed inventory dashboard — stock levels, RED/AMBER/GREEN alerts, reorder queue*
