@@ -255,12 +255,6 @@ Schedules persist across sessions and are defined per operator.
 
 Each operator is a distinct identity with its own personality, visual concept, and domain of responsibility. Identity is defined in `system.md` alongside behavioural instructions. The same file drives personality, scope, and the Operator UI's visual theme for that operator.
 
-The Operator web UI has a built-in appearance system. Each operator can be assigned a theme — Terminal, Steel, Matrix, Arasaka, Rebel — which changes the colour palette, typography, and UI accent throughout the interface. The theme switches automatically when you switch operators. Portraits are state-aware and update to match current activity.
-
-![Appearance panel](screenshots/appearance-panel.jpg)
-
-*Theme selector — appearance is per-operator and switches automatically*
-
 ---
 
 ### Dex — Personal Assistant
@@ -284,6 +278,16 @@ Built for ecommerce and retail operations. Inventory, orders, fulfilment, Shopif
 | <img src="screenshots/merchant-standby.jpg" width="200"> | <img src="screenshots/merchant-active.jpg" width="200"> | <img src="screenshots/merchant-thinking.jpg" width="200"> | <img src="screenshots/merchant-alert.jpg" width="200"> |
 |:----:|:--------:|:-------:|:-------:|
 | Idle | Thinking | Working | Success |
+
+---
+
+### Appearance
+
+The Operator web UI has a built-in appearance system. Each operator can be assigned a theme — Terminal, Steel, Matrix, Arasaka, Rebel — which changes the colour palette, typography, and UI accent throughout the interface. The theme switches automatically when you switch operators.
+
+![Appearance panel](screenshots/appearance-panel.jpg)
+
+*Theme selector — appearance is per-operator and switches automatically*
 
 ---
 
