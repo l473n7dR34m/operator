@@ -333,5 +333,5 @@ Configuration lives in `CLAUDE.md` (operator behaviour), `operators/` (operator 
 
 ## Status
 
-Active development. The reference deployment (Dex) has been running as a personal AI assistant since early 2026 — handling a real daily workload across Telegram and the Operator web UI. This is personal-scale production use, not enterprise deployment. The codebase is being extended and refined for broader deployment to additional operators and use cases.
+Active development. The reference deployment (Dex) has been running as a personal AI assistant since early 2026 — handling a real daily workload across Telegram and the Operator web UI. The codebase is being extended and refined for broader deployment to additional operators and use cases.
 
