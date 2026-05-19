@@ -47,8 +47,10 @@ The reference deployment — a personal AI operator running daily since early 20
 Responds in seconds. Occasionally sarcastic.
 
 ![Dex in Telegram](screenshots/telegram-dex-priorities.jpg)
+*Dex delivering priorities via Telegram*
 
 ![Operator web UI](screenshots/nexus-secure-channel.jpg)
+*The Operator web UI — same conversation, different channel*
 
 ---
 
@@ -90,6 +92,7 @@ The platform runs in two layers depending on whether server portability is neede
 The **web UI layer** reimplements the same integrations natively in Python, making it fully portable to a server without a CLI dependency.
 
 ![Operator web UI — unified conversation log](screenshots/nexus-secure-channel.jpg)
+*Unified conversation log — messages from Telegram, Slack, and the web UI in a single thread*
 
 ---
 
@@ -110,6 +113,7 @@ The web UI loads all operators at startup. Operators can be added, updated, or s
 New integrations, dashboards, skills, and scheduled jobs can all be added without rebuilding the platform. New integration: add it to the Python tooling layer and register the tool. New dashboard: a self-contained HTML page served by the FastAPI backend. New skill: a markdown instruction file. New scheduled job: a cron definition per operator. Each extension is isolated — nothing breaks when you add something.
 
 ![Appearance panel](screenshots/appearance-panel.jpg)
+*Operator UI appearance panel — theme selection per operator*
 
 ---
 
@@ -142,6 +146,7 @@ Multi-step workflows are defined as **systems** — pipeline files that chain sk
 Available pipelines: job application, morning briefing, weekly review, garden check.
 
 ![Capabilities panel](screenshots/capabilities-panel.jpg)
+*Skills capabilities panel — core, extended, and custom skill sets per operator*
 
 ---
 
@@ -167,6 +172,7 @@ Fourteen live integrations. Each one is implemented, authenticated, and running 
 | **Anthropic API** | Python SDK | All AI inference — Sonnet and Opus models |
 
 ![Dashboards panel](screenshots/dashboards-panel.jpg)
+*Dashboards panel — nine live integrations, pinnable per operator*
 
 ---
 
@@ -189,8 +195,10 @@ The Operator web UI includes nine live per-service dashboards alongside the chat
 Self-contained HTML pages served by the FastAPI backend. No external dependencies — all data fetched server-side.
 
 ![Unleashed dashboard](screenshots/dashboard-unleashed.jpg)
+*Unleashed inventory dashboard — stock levels, RED/AMBER/GREEN alerts, reorder queue*
 
 ![Spotify dashboard](screenshots/dashboard-spotify.jpg)
+*Spotify dashboard — now playing, recently played, top tracks*
 
 ---
 
@@ -247,6 +255,7 @@ Operators support cron-based scheduling. Jobs can:
 Schedules persist across sessions and are defined per operator.
 
 ![Schedules panel](screenshots/schedules-panel.jpg)
+*Schedules panel — cron-based jobs defined per operator; briefings, alerts, digests*
 
 ---
 
@@ -271,6 +280,7 @@ Operator portraits are state-aware. The portrait updates to match current activi
 | ![](screenshots/dex-standby.jpg) | ![](screenshots/dex-active.jpg) | ![](screenshots/dex-thinking.jpg) | ![](screenshots/dex-scanning.jpg) |
 
 ![Dex operator panel](screenshots/operator-dex-panel.jpg)
+*Dex operator panel — portrait, status, and channel controls*
 
 ---
 
