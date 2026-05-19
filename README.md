@@ -21,6 +21,8 @@ The primary channel is **Telegram**. Send a message and it hits a bot webhook, w
 
 That same log is read by every other channel. Open the **Operator web UI**, type a follow-up, and the operator already knows what you were talking about on Telegram. A **Slack** message lands in the same thread. A scheduled job fires at 7am and its output joins the same history. One persistent brain, multiple entry points — no context loss between channels.
 
+The system executes in a single-threaded conversational loop per operator, with sequential tool invocation and a unified append-only event log.
+
 Behind the scenes, **MCP connectors** (Model Context Protocol — an open standard for AI tool use) give operators live access to external services: Gmail, Google Calendar, Drive, Canva, and more. Auth is handled via OAuth; no custom integration code per service. **Python hooks** run outside the AI context on every tool call, session start, and session end — they handle logging, cross-channel mirroring, and safety enforcement regardless of what the model does. **Skills** are markdown instruction files that load at runtime, letting you add capabilities without touching application code.
 
 The real power comes from combining all three extension layers. An operator's **skills** give it capabilities. Its **dashboards** surface live data without needing to ask. Its **schedules** make it proactive rather than reactive — briefings at 7am, stock alerts the moment a threshold is crossed, weekly digests sent automatically. A well-configured operator doesn't wait to be told what to do.
