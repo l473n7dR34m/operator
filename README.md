@@ -13,13 +13,15 @@ Built by [Ryan Bullivant](https://github.com/l473n7dr34m).
 
 ## What It Is
 
-Operator is a framework for deploying AI assistants into real workflows. Each **operator** has a defined identity, scope, and skill set. Users interact via Telegram, Slack, or a web UI. All channels share a single conversation log — context is preserved regardless of which channel was used last.
+When a message arrives on Telegram, it hits a bot webhook and gets routed to a running Claude session — the operator's brain. Claude reads the message, decides which tools or skills to invoke, calls them, and replies. The full exchange is written to a shared conversation log tagged by channel and timestamp. A message sent on Telegram, a follow-up in the web UI, a ping from a scheduled job — Claude sees them all in order and keeps the thread.
 
-Operators are not general-purpose chatbots. Each one is scoped to a specific role: a defined system prompt, a curated skill set, and a controlled set of allowed tools. A deployment might include an Inbox Operator, a Projects Operator, and an Inventory Operator — each one focused, each one fast.
+Behind the scenes, Claude Code runs as the runtime. Each operator is configured with a system prompt that defines its identity, scope, and allowed tools. Skills load dynamically at runtime as markdown instruction sets. MCP (Model Context Protocol) connectors give the operator access to external services — Gmail, Calendar, Drive, Canva — without writing integration code. Hooks (Python scripts that run outside the AI context) handle logging, safety enforcement, and cross-channel mirroring regardless of what the model does.
+
+The channel layer is where users actually interact. Telegram is the primary interface — fast, mobile, supports voice messages, files, and emoji reactions. The same operator is also available via Slack and a local web UI (Nexus), all reading from the same conversation history. One brain, multiple entry points.
+
+Each **operator** has a defined identity, scope, and skill set. Operators are not general-purpose chatbots — each one is scoped to a specific role: a defined system prompt, a curated skill set, and a controlled set of allowed tools. A deployment might include an Inbox Operator, a Projects Operator, and an Inventory Operator — each one focused, each one fast.
 
 The real power comes from combining all three extension layers at once. An operator's **skills** give it capabilities (draft an email, check stock levels, plan a meal). Its **dashboards** surface live data without needing to ask for it (inventory levels, order queue, API spend). Its **schedules** make it proactive rather than reactive — briefings fire at 7am, alerts fire the moment a threshold is crossed, weekly digests go out automatically. A well-configured operator doesn't wait to be told what to do.
-
-![Operator panel](screenshots/operator-dex-panel.jpg)
 
 ---
 
