@@ -270,7 +270,7 @@ Scope: personal productivity — inbox, calendar, briefings, job search, home an
 
 Operator portraits are state-aware. The portrait updates to match current activity.
 
-| ![](screenshots/dex-idle.jpg) | ![](screenshots/dex-thinking.jpg) | ![](screenshots/dex-working.jpg) | ![](screenshots/dex-success.jpg) |
+| <img src="screenshots/dex-idle.jpg" width="200"> | <img src="screenshots/dex-thinking.jpg" width="200"> | <img src="screenshots/dex-working.jpg" width="200"> | <img src="screenshots/dex-success.jpg" width="200"> |
 |:----:|:--------:|:-------:|:-------:|
 | Idle | Thinking | Working | Success |
 
@@ -280,9 +280,9 @@ Operator portraits are state-aware. The portrait updates to match current activi
 
 Built for ecommerce and retail operations. Inventory, orders, fulfilment, Shopify management, and sales reporting. Wired to Shopify, Unleashed, and Stripe. Deployed where a business needs a commerce brain available on demand rather than a dashboard to babysit.
 
-| ![](screenshots/merchant-standby.jpg) | ![](screenshots/merchant-active.jpg) | ![](screenshots/merchant-thinking.jpg) | ![](screenshots/merchant-alert.jpg) |
-|:-------:|:------:|:--------:|:-----:|
-| Standby | Active | Thinking | Alert |
+| <img src="screenshots/merchant-standby.jpg" width="200"> | <img src="screenshots/merchant-active.jpg" width="200"> | <img src="screenshots/merchant-thinking.jpg" width="200"> | <img src="screenshots/merchant-alert.jpg" width="200"> |
+|:----:|:--------:|:-------:|:-------:|
+| Idle | Thinking | Working | Success |
 
 ---
 
