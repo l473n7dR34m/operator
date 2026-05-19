@@ -337,7 +337,7 @@ Configuration lives in `CLAUDE.md` (operator behaviour), `operators/` (operator 
 
 **Integrations:** Google OAuth2, Telegram Bot API, Slack Bolt, Shopify REST, Unleashed REST + HMAC, Stripe, Spotify Web API, Starlink gRPC, GitHub REST — all implemented against vendor APIs directly, no third-party abstraction layers.
 
-**Event log:** Append-only JSONL per operator — chosen over a database to keep the system stateless and portable. Any session can be replayed or inspected with a text editor.
+**Event log:** Append-only JSONL per operator — chosen over a database to keep the system stateless and portable. Any session can be replayed or inspected with a text editor. Context compaction is handled natively by Claude Code: rather than passing the full log each session, the CLI compacts history into a structured summary, appends it as the new context anchor, and archives the raw JSONL. A hook fires post-compaction to write a recovery file and resume the last topic on the next message.
 
 **Skills:** Markdown instruction files over compiled modules — runtime-loadable without restarts, editable without a deploy, and readable by non-engineers. The trade-off (no execution guarantees) is accepted: this is an LLM-driven system, not a deterministic pipeline.
 
