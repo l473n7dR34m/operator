@@ -5,7 +5,7 @@
 ![Status](https://img.shields.io/badge/Status-Production%20%E2%80%94%20daily%20use-brightgreen)
 ![License](https://img.shields.io/badge/License-Private-lightgrey)
 
-A self-hosted AI operator platform. Deploy focused AI assistants wired to your tools, available on the channels your team already uses, running entirely on your own infrastructure.
+A self-hosted AI operator platform for individuals and small teams. Deploy focused AI assistants wired to your tools, available on the channels you already use, running entirely on your own infrastructure. Designed for single-operator or small-team deployments — not multi-tenant scale.
 
 Built by [Ryan Bullivant](https://github.com/l473n7dr34m).
 
@@ -119,7 +119,7 @@ New integrations, dashboards, skills, and scheduled jobs can all be added withou
 
 ## Skills System
 
-Operators are extended through **skills** — modular instruction sets that load dynamically at runtime. Each skill is a markdown file: what it does, when to invoke it, and step-by-step execution instructions.
+Operators are extended through **skills** — prompt-based instruction sets that load dynamically at runtime. Each skill is a markdown file: what it does, when to invoke it, and step-by-step execution instructions. Skills guide the model's behaviour; they don't enforce it at the execution layer. Think of them as structured prompting, not compiled modules.
 
 ```
 skills/
@@ -204,16 +204,16 @@ Self-contained HTML pages served by the FastAPI backend. No external dependencie
 
 ## Hooks
 
-Session behaviour is controlled by an event hook system. Hooks are Python scripts that run outside the AI context — reliable for logging and safety enforcement regardless of model behaviour.
+Session behaviour is controlled by an event hook system. Hooks are Python scripts that run outside the AI context — deterministic and model-agnostic, so they fire regardless of what the model does. They handle logging, cross-channel mirroring, and soft safety gating (blocking destructive operations pending confirmation). They are not a hard enforcement layer — they're a reliable control surface that sits between the model and the system.
 
 | Hook | Fires when | What it does |
 |------|-----------|--------------|
 | `UserPromptSubmit` | User sends a message | Mirrors message to Operator web UI in real time |
 | `PostToolUse` | Any tool call completes | Logs tool calls; mirrors Telegram replies to Operator |
 | `Stop` | Session ends | Writes session log, updates context files, fires post-compaction recovery |
-| `PreToolUse` | Before any tool call | Enforces safety rules — blocks destructive operations without explicit confirmation |
+| `PreToolUse` | Before any tool call | Soft safety gate — prompts confirmation before destructive operations |
 
-This hook layer is how the platform enforces consistent safety behaviour that cannot be overridden by prompt manipulation.
+The hook layer adds predictable, auditable behaviour that doesn't depend on model compliance.
 
 ---
 
