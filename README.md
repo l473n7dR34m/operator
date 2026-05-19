@@ -19,7 +19,7 @@ Operators are not general-purpose chatbots. Each one is scoped to a specific rol
 
 The real power comes from combining all three extension layers at once. An operator's **skills** give it capabilities (draft an email, check stock levels, plan a meal). Its **dashboards** surface live data without needing to ask for it (inventory levels, order queue, API spend). Its **schedules** make it proactive rather than reactive — briefings fire at 7am, alerts fire the moment a threshold is crossed, weekly digests go out automatically. A well-configured operator doesn't wait to be told what to do.
 
-> **Screenshot:** Operator registry view — operators list with status and config overview
+![Operator panel](screenshots/operator-dex-panel.jpg)
 
 ---
 
@@ -42,9 +42,9 @@ The reference deployment — a personal AI operator running daily since early 20
 
 Responds in seconds. Occasionally sarcastic.
 
-> **Screenshot:** Dex responding in Telegram — inbox triage session
+![Dex in Telegram](screenshots/telegram-dex-priorities.jpg)
 
-> **Screenshot:** Nexus web UI — chat panel with Dex, live dashboard sidebar
+![Nexus secure channel](screenshots/nexus-secure-channel.jpg)
 
 ---
 
@@ -85,7 +85,7 @@ The platform runs in two layers depending on whether server portability is neede
 
 The **web UI layer** reimplements the same integrations natively in Python, making it fully portable to a server without a CLI dependency.
 
-> **Screenshot:** Architecture diagram or Nexus UI showing channel source tags in the conversation log
+![Nexus secure channel — unified conversation log](screenshots/nexus-secure-channel.jpg)
 
 ---
 
@@ -105,7 +105,7 @@ The web UI loads all operators at startup. Operators can be added, updated, or s
 
 New integrations, dashboards, skills, and scheduled jobs can all be added without rebuilding the platform. New integration: add it to the Python tooling layer and register the tool. New dashboard: a self-contained HTML page served by the FastAPI backend. New skill: a markdown instruction file. New scheduled job: a cron definition per operator. Each extension is isolated — nothing breaks when you add something.
 
-> **Screenshot:** operators/ directory structure or web UI operator management panel
+![Appearance panel](screenshots/appearance-panel.jpg)
 
 ---
 
@@ -137,7 +137,7 @@ Multi-step workflows are defined as **systems** — pipeline files that chain sk
 
 Available pipelines: job application, morning briefing, weekly review, garden check.
 
-> **Screenshot:** Morning briefing pipeline output — news, weather, surf, calendar in a single Telegram message
+![Capabilities panel](screenshots/capabilities-panel.jpg)
 
 ---
 
@@ -162,7 +162,7 @@ Fourteen live integrations. Each one is implemented, authenticated, and running 
 | **Whisper** | Groq / OpenAI API | Voice transcription (whisper-large-v3 / whisper-1) |
 | **Anthropic API** | Python SDK | All AI inference — Sonnet and Opus models |
 
-> **Screenshot:** Integrations dashboard or a Telegram alert fired from the Unleashed Sentinel
+![Dashboards panel](screenshots/dashboards-panel.jpg)
 
 ---
 
@@ -184,7 +184,9 @@ The Nexus web UI includes nine live per-service dashboards alongside the chat in
 
 Self-contained HTML pages served by the FastAPI backend. No external dependencies — all data fetched server-side.
 
-> **Screenshot:** Nexus dashboard panel — Unleashed stock levels or Starlink signal stats
+![Unleashed dashboard](screenshots/dashboard-unleashed.jpg)
+
+![Spotify dashboard](screenshots/dashboard-spotify.jpg)
 
 ---
 
@@ -240,6 +242,8 @@ Operators support cron-based scheduling. Jobs can:
 
 Schedules persist across sessions and are defined per operator.
 
+![Schedules panel](screenshots/schedules-panel.jpg)
+
 ---
 
 ## Operators
@@ -256,7 +260,7 @@ Visual concept: dark hair slicked back, angular face, one eye glowing blue (cybe
 
 Scope: personal productivity — inbox, calendar, briefings, job search, home and property management.
 
-> **Screenshot:** Dex visual identity in Nexus UI
+![Dex operator panel](screenshots/operator-dex-panel.jpg)
 
 ---
 
@@ -264,7 +268,7 @@ Scope: personal productivity — inbox, calendar, briefings, job search, home an
 
 Built for ecommerce and retail operations. Inventory, orders, fulfilment, Shopify management, and sales reporting. Wired to Shopify, Unleashed, and Stripe. Deployed where a business needs a commerce brain available on demand rather than a dashboard to babysit.
 
-> **Screenshot:** Merchant visual identity and Shopify/Unleashed dashboard
+*Screenshot coming — Merchant portrait pending.*
 
 ---
 
