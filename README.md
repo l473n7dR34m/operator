@@ -47,9 +47,11 @@ The reference deployment — a personal AI operator running daily since early 20
 Responds in seconds. Occasionally sarcastic.
 
 ![Dex in Telegram](screenshots/telegram-dex-priorities.jpg)
+
 *Dex delivering priorities via Telegram*
 
 ![Operator web UI](screenshots/nexus-secure-channel.jpg)
+
 *The Operator web UI — same conversation, different channel*
 
 ---
@@ -143,6 +145,7 @@ Multi-step workflows are defined as **systems** — pipeline files that chain sk
 Available pipelines: job application, morning briefing, weekly review, garden check.
 
 ![Capabilities panel](screenshots/capabilities-panel.jpg)
+
 *Skills capabilities panel — core, extended, and custom skill sets per operator*
 
 ---
@@ -189,12 +192,15 @@ The Operator web UI includes nine live per-service dashboards alongside the chat
 Self-contained HTML pages served by the FastAPI backend. No external dependencies — all data fetched server-side.
 
 ![Dashboards panel](screenshots/dashboards-panel.jpg)
+
 *Dashboards panel — nine live integrations, pinnable per operator*
 
 ![Unleashed dashboard](screenshots/dashboard-unleashed.jpg)
+
 *Unleashed inventory dashboard — stock levels, RED/AMBER/GREEN alerts, reorder queue*
 
 ![Spotify dashboard](screenshots/dashboard-spotify.jpg)
+
 *Spotify dashboard — now playing, recently played, top tracks*
 
 ---
@@ -252,6 +258,7 @@ Operators support cron-based scheduling. Jobs can:
 Schedules persist across sessions and are defined per operator.
 
 ![Schedules panel](screenshots/schedules-panel.jpg)
+
 *Schedules panel — cron-based jobs defined per operator; briefings, alerts, digests*
 
 ---
