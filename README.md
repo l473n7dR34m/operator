@@ -46,7 +46,7 @@ The reference deployment — a personal AI operator running daily since early 20
 - Track fire danger and flood warnings (NSW RFS / BOM) for a remote rural property
 - Log sessions, maintain memory across restarts, recover gracefully after context resets
 
-Responds in seconds. Occasionally sarcastic.
+Responds in seconds.
 
 ![Dex in Telegram](screenshots/telegram-dex-priorities.jpg)
 
@@ -154,7 +154,7 @@ Available pipelines: job application, morning briefing, weekly review, garden ch
 
 ## Integrations
 
-Fourteen live integrations. Each one is implemented, authenticated, and running in the reference deployment.
+Fifteen live integrations. Each one is implemented, authenticated, and running in the reference deployment.
 
 | Integration | Auth method | What it does |
 |-------------|-------------|--------------|
@@ -166,6 +166,7 @@ Fourteen live integrations. Each one is implemented, authenticated, and running 
 | **Canva** | MCP (OAuth) | Design creation, editing, export |
 | **Shopify** | REST Admin API | Orders, products, fulfilment status |
 | **Unleashed** | REST API + HMAC signing | Inventory, stock levels, purchase orders |
+| **Xero** | OAuth 2.0 | Invoices, bills, P&L, bank transactions |
 | **Stripe** | REST API | Charges, subscriptions, revenue reporting |
 | **Spotify** | Web API | Playback state, history, library |
 | **Starlink** | gRPC (local dish API) | Signal quality, latency, uptime, obstruction map — primary internet at an off-grid property |
@@ -177,7 +178,7 @@ Fourteen live integrations. Each one is implemented, authenticated, and running 
 
 ## Dashboards
 
-The Operator web UI includes nine per-service dashboards alongside the chat interface. Each pulls live data from its API on demand and is hooked into the operator's skills and capabilities — so the same data a dashboard surfaces can be queried, acted on, or alerted against by the operator.
+The Operator web UI includes ten per-service dashboards alongside the chat interface. Each pulls live data from its API on demand and is hooked into the operator's skills and capabilities — so the same data a dashboard surfaces can be queried, acted on, or alerted against by the operator.
 
 | Dashboard | What it shows |
 |-----------|---------------|
@@ -188,6 +189,7 @@ The Operator web UI includes nine per-service dashboards alongside the chat inte
 | **GitHub** | Repo activity, open PRs, recent commits |
 | **Stripe** | Revenue, recent charges, subscription status |
 | **Spotify** | Now playing, recently played, top tracks |
+| **Xero** | Invoices, bills payable, P&L, bank transactions |
 | **Starlink** | Signal quality, latency, uptime, obstruction map |
 | **Anthropic** | API usage, token spend, model breakdown |
 
@@ -195,7 +197,7 @@ Self-contained HTML pages served by the FastAPI backend. No external dependencie
 
 ![Dashboards panel](screenshots/dashboards-panel.jpg)
 
-*Dashboards panel — nine live integrations, pinnable per operator*
+*Dashboards panel — ten live integrations, pinnable per operator*
 
 ![Unleashed dashboard](screenshots/dashboard-unleashed.jpg)
 
@@ -259,7 +261,7 @@ Each operator is a distinct identity with its own personality, visual concept, a
 
 ### Dex — Personal Assistant
 
-Dry, precise, occasionally sarcastic, completely unbothered. Minimal words. Exact numbers. Treats every task like it's beneath them but does it perfectly anyway.
+Dry, precise, completely unbothered. Minimal words. Exact numbers. Treats every task like it's beneath them but does it perfectly anyway.
 
 Scope: personal productivity — inbox, calendar, briefings, job search, home and property management.
 
@@ -273,7 +275,17 @@ Operator portraits are state-aware. The portrait updates to match current activi
 
 ### Merchant — Commerce Operator
 
-Built for ecommerce and retail operations. Inventory, orders, fulfilment, Shopify management, and sales reporting. Wired to Shopify, Unleashed, and Stripe. Deployed where a business needs a commerce brain available on demand rather than a dashboard to babysit.
+Built for ecommerce and retail operations. Inventory, orders, fulfilment, Shopify management, sales reporting, and accounting. Wired to Shopify, Unleashed, Xero, and Stripe. Runs on its own dedicated Telegram bot with a separate token — commerce traffic stays isolated from personal channels.
+
+Proactive by default:
+
+- Fires order alerts every 5 minutes via Telegram when new Shopify orders arrive
+- Delivers a daily morning brief at 07:00: revenue summary, stock coverage status, outstanding bills and invoices from Xero
+- Monitors Unleashed inventory with RED/AMBER/GREEN coverage alerts — fires Telegram alerts the moment a product goes critical
+- Triages supplier and customer email via Gmail, drafts responses to order and fulfilment queries
+- Pulls Xero invoices, bills payable, P&L, and bank transactions on demand
+
+Deployed where a business needs a commerce brain available around the clock rather than a dashboard to babysit.
 
 | <img src="screenshots/merchant-standby.jpg" width="200"> | <img src="screenshots/merchant-active.jpg" width="200"> | <img src="screenshots/merchant-thinking.jpg" width="200"> | <img src="screenshots/merchant-alert.jpg" width="200"> |
 |:----:|:--------:|:-------:|:-------:|
@@ -308,10 +320,12 @@ cp .env.example .env
 
 # Key variables:
 # TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
+# MERCHANT_BOT_TOKEN (separate bot for Merchant operator)
 # SLACK_BOT_TOKEN
 # GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
 # ANTHROPIC_API_KEY
 # SHOPIFY_API_KEY, UNLEASHED_API_ID, UNLEASHED_API_KEY (optional, per operator)
+# XERO_CLIENT_ID, XERO_CLIENT_SECRET (OAuth, optional)
 ```
 
 **Start the web UI:**
@@ -335,13 +349,13 @@ Configuration lives in `CLAUDE.md` (operator behaviour), `operators/` (operator 
 
 **AI / LLM:** Anthropic API (claude-sonnet-4, claude-opus-4), MCP protocol, Claude Code CLI, Whisper API (Groq / OpenAI) — the CLI layer uses MCP connectors (standardised tool calling, OAuth via claude.ai); the web UI layer uses custom Python adapters (portable to any VPS, no CLI dependency). Two different integration strategies for two different deployment targets.
 
-**Integrations:** Google OAuth2, Telegram Bot API, Slack Bolt, Shopify REST, Unleashed REST + HMAC, Stripe, Spotify Web API, Starlink gRPC, GitHub REST — all implemented against vendor APIs directly, no third-party abstraction layers.
+**Integrations:** Google OAuth2, Telegram Bot API, Slack Bolt, Shopify REST, Unleashed REST + HMAC, Xero OAuth 2.0, Stripe, Spotify Web API, Starlink gRPC, GitHub REST — all implemented against vendor APIs directly, no third-party abstraction layers.
 
 **Event log:** Append-only JSONL per operator — chosen over a database to keep the system stateless and portable. Any session can be replayed or inspected with a text editor. Context compaction is handled natively by Claude Code: rather than passing the full log each session, the CLI compacts history into a structured summary, appends it as the new context anchor, and archives the raw JSONL. A hook fires post-compaction to write a recovery file and resume the last topic on the next message.
 
 **Skills:** Markdown instruction files over compiled modules — runtime-loadable without restarts, editable without a deploy, and readable by non-engineers. The trade-off (no execution guarantees) is accepted: this is an LLM-driven system, not a deterministic pipeline.
 
-**Frontend:** HTML / CSS / JavaScript (nine dashboard UIs), PWA-capable web UI — no framework dependency, keeping the UI layer portable and easy to audit.
+**Frontend:** HTML / CSS / JavaScript (ten dashboard UIs), PWA-capable web UI — no framework dependency, keeping the UI layer portable and easy to audit.
 
 **Infrastructure:** Self-hosted, VPS-portable, PowerShell scripting (Windows), designed for headless server deployment.
 
