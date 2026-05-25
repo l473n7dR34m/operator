@@ -5,15 +5,15 @@
 ![Status](https://img.shields.io/badge/Status-Production%20%E2%80%94%20daily%20use-brightgreen)
 ![License](https://img.shields.io/badge/License-Private-lightgrey)
 
-The problem with most AI assistant setups: no shared context between channels. A message on Telegram, a follow-up in the web UI, a scheduled job output — they're all separate. Every context switch costs you the thread.
+Operator is a self-hosted platform for running persistent AI assistants — **operators** — that maintain shared context across channels, execute scheduled work, and interact with real-world systems through tools and integrations. Each operator is built around a specific role. Not a chatbot. Not an agent framework. A persistent identity with a defined scope, a job to do, and the tools to do it.
 
-Operator is a platform for running focused AI assistants — operators — each with a defined identity, a specific scope, and a persistent shared event log across channels. Built around a persistent event log, tool adapters, and LLM decision-making. Self-hosted, designed for single-operator to multi-operator deployment.
+The architectural choice that matters: the conversation log is the primary object. Channels are views into it. Send a message on Telegram, follow up in the web UI, and the operator already knows what you were talking about. A scheduled job fires at 7am and its output joins the same history. One persistent brain, multiple entry points, no context loss between channels.
 
 ---
 
 ## What It Is
 
-An **operator** is a focused AI assistant with a defined identity, a specific scope, and a curated set of tools. Not a general-purpose chatbot — each operator is configured for a role: inbox management, inventory monitoring, commerce ops, or whatever the deployment requires. The identity lives in a system prompt; the capabilities come from skills, integrations, and scheduled jobs layered on top.
+An **operator** is a focused AI assistant with a defined identity, a specific scope, and a curated set of tools. Not a general-purpose chatbot — each operator is configured for a role: inbox management, inventory monitoring, commerce ops, or whatever the deployment requires. The identity lives in a system prompt; the capabilities come from tools and integrations. Skills are instruction sets that guide how those tools get used — structured prompting, not compiled modules.
 
 ### How it works
 
@@ -120,7 +120,7 @@ New integrations, dashboards, skills, and scheduled jobs can all be added withou
 
 ## Skills System
 
-Operators are extended through **skills** — prompt-based instruction sets that load dynamically at runtime. Each skill is a markdown file: what it does, when to invoke it, and step-by-step execution instructions. Skills guide the model's behaviour; they don't enforce it at the execution layer. Think of them as structured prompting, not compiled modules.
+Operators are extended through **skills** — instruction sets that load dynamically at runtime. Each skill is a markdown file: what it does, when to invoke it, and step-by-step execution instructions. A skill is guidance, not capability. The capability comes from the tools the model calls. Without the tools, a skill is just a prompt. With them, it's a repeatable workflow.
 
 ```
 skills/
@@ -363,5 +363,5 @@ Configuration lives in `CLAUDE.md` (operator behaviour), `operators/` (operator 
 
 ## Status
 
-Active development. The reference deployment (Dex) has been running as a personal AI assistant since early 2026 — handling a real daily workload across Telegram and the Operator web UI. The codebase is being extended and refined for broader deployment to additional operators and use cases.
+Active development. Two operators are running in production: Dex (personal assistant, running since early 2026) and Merchant (commerce operations). Both handle real daily workloads across Telegram and the Operator web UI. This is a sophisticated personal operating system that has proven itself in real deployment — not a general-purpose platform. Multi-operator support is working; multi-tenant deployment is not a current goal.
 
