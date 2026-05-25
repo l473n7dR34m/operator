@@ -295,15 +295,11 @@ Deployed where a business needs a commerce brain available around the clock rath
 
 ### Appearance
 
-The Operator web UI has a built-in appearance system. Each operator can be assigned a theme — Terminal, Steel, Matrix, Arasaka, Rebel — which sets the colour palette, typography, and UI accent for that operator. The theme switches automatically when you switch operators.
-
-Themes apply across the entire interface. When a dashboard iframe loads, the parent UI pushes the active skin to it via postMessage — so all ten dashboards match the operator's theme without separate configuration. Background texture, scanline overlay, and font are all consistent across the main UI and every dashboard panel.
-
-The scanline overlay can be toggled on or off per operator. Font is selectable from a curated set of monospace options. All settings are stored per operator and restored on next load.
+The Operator web UI has a built-in appearance system. Each operator can be assigned a theme — Terminal, Steel, Matrix, Arasaka, Rebel — which changes the colour palette, typography, and UI accent throughout the interface. The theme switches automatically when you switch operators.
 
 ![Appearance panel](screenshots/appearance-panel.jpg)
 
-*Theme selector — appearance is per-operator and propagates to all dashboard panels automatically*
+*Theme selector — appearance is per-operator and switches automatically*
 
 ---
 
